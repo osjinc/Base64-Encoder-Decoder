@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoder/Decoder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        input[readonly] {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Base64 Encoder/Decoder</h1>
+
+<form id="encodeForm">
+    <label for="encodeInput">Enter text to encode:</label>
+    <input type="text" id="encodeInput" />
+    <button type="button" onclick="pasteFromClipboard('encodeInput')">Paste from Clipboard</button>
+    <button type="button" onclick="encodeBase64()">Encode</button>
+    <br>
+    <label for="encodedResult">Encoded Result:</label>
+    <input type="text" id="encodedResult" readonly />
+    <button type="button" onclick="copyToClipboard('encodedResult')">Copy to Clipboard</button>
+</form>
+
+<form id="decodeForm">
+    <label for="decodeInput">Enter text to decode:</label>
+    <input type="text" id="decodeInput" />
+    <button type="button" onclick="pasteFromClipboard('decodeInput')">Paste from Clipboard</button>
+    <button type="button" onclick="decodeBase64()">Decode</button>
+    <br>
+    <label for="decodedResult">Decoded Result:</label>
+    <input type="text" id="decodedResult" readonly />
+    <button type="button" onclick="copyToClipboard('decodedResult')">Copy to Clipboard</button>
+</form>
+
+<script>
+    function encodeBase64() {
+        var inputText = document.getElementById('encodeInput').value;
+        var encodedResult = btoa(inputText);
+        document.getElementById('encodedResult').value = encodedResult;
+    }
+
+    function decodeBase64() {
+        var inputText = document.getElementById('decodeInput').value;
+        var decodedResult = atob(inputText);
+        document.getElementById('decodedResult').value = decodedResult;
+    }
+
+    function copyToClipboard(elementId) {
+        var element = document.getElementById(elementId);
+        element.select();
+        document.execCommand('copy');
+    }
+
+    function pasteFromClipboard(elementId) {
+        navigator.clipboard.readText()
+            .then(text => {
+                document.getElementById(elementId).value = text;
+            })
+            .catch(err => {
+                console.error('Failed to read clipboard contents: ', err);
+            });
+    }
+</script>
+
+</body>
+</html>
